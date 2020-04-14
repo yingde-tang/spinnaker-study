@@ -2,26 +2,26 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
     labels:
-        app: mild-temper-microservice
+        app: yingde-solo-microservice
         stack: frontend
         source: demo
-    name: mild-temper-microservice
+    name: yingde-solo-microservice
     namespace: microservices
 spec:
     replicas: 3
     selector:
         matchLabels:
-            run: mild-temper-microservice
+            run: yingde-solo-microservice
     template:
         metadata:
             labels:
-                app: mild-temper-microservice
-                run: mild-temper-microservice
+                app: yingde-solo-microservice
+                run: yingde-solo-microservice
                 source: demo
         spec:
             containers:
-                -   image: 219099013464.dkr.ecr.us-west-2.amazonaws.com/mild-temper-microservice
-                    name: mild-temper-microservice
+                -   image: 219099013464.dkr.ecr.us-west-2.amazonaws.com/yingde-solo-microservice
+                    name: yingde-solo-microservice
                     ports:
                         -   name: web
                             containerPort: 8080
@@ -31,35 +31,35 @@ kind: Service
 apiVersion: v1
 metadata:
     labels:
-        app: mild-temper-microservice-service
-    name: mild-temper-microservice-service
+        app: yingde-solo-microservice-service
+    name: yingde-solo-microservice-service
     namespace: microservices
 spec:
     selector:
         source: demo
-        app: mild-temper-microservice
+        app: yingde-solo-microservice
     ports:
         -   name: web
             protocol: TCP
             port: 30201
             targetPort: 8080
 
------
+---
 
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
     annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
-    name: mild-temper-ingress
+    name: yingde-solo-ingress
     namespace: microservices
 spec:
     rules:
         -   http:
                 paths:
-                    -   path: /mild-temper(/|$)(.*)
+                    -   path: /yingde-solo(/|$)(.*)
                         backend:
-                            serviceName: mild-temper-microservice-service
+                            serviceName: yingde-solo-microservice-service
                             servicePort: 30201
 
 
